@@ -1,0 +1,24 @@
+﻿.treeView {
+	cursor: pointer;
+    font-weight: bold;
+    text-decoration: underline;
+}
+.branchLeft {
+    margin-left: 10px;
+}
+
+/* thanks to http://jsfiddle.net/FtL6G/ */
+.b-toggle {
+    opacity: 0;
+    max-height: 0;
+    overflow: auto;/*hidden;*/
+    -moz-transition: opacity 1s, max-height 1s;
+    -ms-transition: opacity 1s, max-height 1s;
+    transition: opacity 1s, max-height 1s;
+    _display: none;
+}
+.expanded {
+    max-height: 1000px;
+    opacity: 1;
+    _display: block;
+}
