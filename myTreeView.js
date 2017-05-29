@@ -3,7 +3,7 @@
  * Author: Andrej Hristoliubov
  * email: anhr@mail.ru
  * About me: http://anhr.ucoz.net/AboutMe/
- * source: https://github.com/anhr/WebFeatures
+ * source: https://github.com/anhr/TreeElement
  * Licences: GPL, The MIT License (MIT)
  * Copyright: (c) 2015 Andrej Hristoliubov
  *
