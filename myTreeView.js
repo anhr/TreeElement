@@ -61,6 +61,8 @@ var myTreeView = {
             if (!elBranch) {
                 if (a.branchElement.className.indexOf(' branch') == -1)
                     a.branchElement.className += ' branch';
+                if (a.branchElement.className.indexOf(' branchLeft') == -1)
+                    a.branchElement.className += ' branchLeft';
                 a.parentElement.appendChild(a.branchElement);
             }
 
@@ -71,8 +73,12 @@ var myTreeView = {
             isOpened = true;
             if (typeof a.params.onOpenBranch != 'undefined')
                 a.params.onOpenBranch(a);
+            if ((typeof a.params.branch != 'undefined') && (typeof a.params.branch.onOpenBranch != 'undefined'))
+                a.params.branch.onOpenBranch(a);
         }
         a.querySelector('.triangle').innerHTML = triangle;
+        if ((typeof a.params.branch != 'undefined') && (typeof a.params.branch.onclickBranch != 'undefined'))
+            a.params.branch.onclickBranch(a);
         return isOpened;
     },
     appendBranch: function (elTree, branch) {
@@ -82,28 +88,31 @@ var myTreeView = {
                 params:
                 {
                     createBranch: function () {
+                        var el;
                         if (typeof branch.branch == "function")
-                            return branch.branch();
+                            el = branch.branch();
                         else {
-                            var el = document.createElement("div");
-                            el.className = "branchLeft" + (branch.animate ? " b-toggle" : "");
+                            el = document.createElement("div");
                             var res = false;
                             if (typeof branch.branch == "string") {
                                 el.innerText = branch.branch;
                                 res = true;
                             }
-                            if (this.tree) {
-                                this.tree.forEach(function (branch) {
+                            if (this.branch.tree) {
+                                this.branch.tree.forEach(function (branch) {
                                     myTreeView.appendBranch(el, branch);
                                 });
                                 res = true;
                             }
                             if (!res)
                                 consoleError("Invalid branch");
-                            return el;
                         }
+                        if (el.className != '')
+                            el.className += ' ';
+                        el.className += (branch.animate ? " b-toggle" : "");
+                        return el;
                     },
-                    tree: branch.tree
+                    branch: branch
                 },
                 title: branch.title,
                 tagName: branch.tagName
