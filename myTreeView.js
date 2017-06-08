@@ -25,6 +25,8 @@ var myTreeView = {
     createBranch: function (options)
     {
         var el = document.createElement((typeof options.tagName == 'undefined') ? "div" : options.tagName);
+        if ((typeof options.className != 'undefined'))
+            el.className = options.className;
         el.innerHTML =
             '<span class="treeView" onclick="javascript: myTreeView.onclickBranch(this)" '
                     + ((typeof options.title == 'undefined') ? '' : 'title="' + options.title + '"') + '>'
@@ -115,7 +117,8 @@ var myTreeView = {
                     branch: branch
                 },
                 title: branch.title,
-                tagName: branch.tagName
+                tagName: branch.tagName,
+                className: branch.className
             }
         ));
     }
