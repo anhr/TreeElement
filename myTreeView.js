@@ -66,6 +66,8 @@ var myTreeView = {
                 if (a.branchElement.className.indexOf(' branchLeft') == -1)
                     a.branchElement.className += ' branchLeft';
                 a.parentElement.appendChild(a.branchElement);
+                if (a.params.scrollIntoView || ((typeof a.params.branch != 'undefined') && (a.params.branch.scrollIntoView)))
+                    setTimeout(function () { a.branchElement.scrollIntoView(); }, 0);
             }
 
             if (a.branchElement.className.indexOf('b-toggle') != -1)
