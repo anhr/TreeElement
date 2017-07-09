@@ -60,14 +60,15 @@ var myTreeView = {
         } else {
             if (typeof a.branchElement == 'undefined') {
                 a.branchElement = a.params.createBranch();
+                var indexBranch = a.branchElement.className.indexOf('branch');
+                if ((indexBranch == -1) || (indexBranch == a.branchElement.className.indexOf('branchLeft')))
+                    a.branchElement.className += ' branch';
                 if (a.params.animate)
                     a.branchElement.className += ' b-toggle';
+                if ((typeof a.params.noBranchLeft == 'undefined') || !a.params.noBranchLeft)
+                    a.branchElement.className += ' branchLeft';
             }
             if (!elBranch) {
-                if (a.branchElement.className.indexOf(' branch') == -1)
-                    a.branchElement.className += ' branch';
-                if (a.branchElement.className.indexOf(' branchLeft') == -1)
-                    a.branchElement.className += ' branchLeft';
                 a.parentElement.appendChild(a.branchElement);
                 if (a.params.scrollIntoView || ((typeof a.params.branch != 'undefined') && (a.params.branch.scrollIntoView)))
                     setTimeout(function () { a.branchElement.scrollIntoView(); }, 0);

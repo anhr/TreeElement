@@ -42,7 +42,6 @@
                     {
                         createBranch: function () {
                             var el = document.createElement("div");
-                            el.className = "branchLeft";
                             el.innerText = "Branch";
                             return el;
                         }
@@ -63,9 +62,9 @@
                     name: "Open Branch",
                     params:
                     {
+                        noBranchLeft: true,
                         createBranch: function () {
                             var el = document.createElement("div");
-                            el.className = "branchLeft";
                             el.innerText = "Branch";
                             return el;
                         },
