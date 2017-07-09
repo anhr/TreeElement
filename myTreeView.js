@@ -17,6 +17,8 @@
  *
  */
 var myTreeView = {
+    expanded: ' expanded',
+    btoggle: 'b-toggle',
     createTree: function (elTree, tree) {
         tree.forEach(function (branch) {
             myTreeView.appendBranch(elTree, branch)
@@ -44,14 +46,14 @@ var myTreeView = {
         var triangle;
         var isOpened = elBranch ?
             (
-                (elBranch.className.indexOf('b-toggle') == -1) ?
+                (elBranch.className.indexOf(this.btoggle) == -1) ?
                 true :
-                ((elBranch.className.indexOf(' expanded') != -1) ? true : false)
+                ((elBranch.className.indexOf(this.expanded) != -1) ? true : false)
             )
             : false;
         if (isOpened) {
-            if (a.branchElement.className.indexOf('b-toggle') != -1)
-                a.branchElement.className = a.branchElement.className.replace(' expanded', '');
+            if (a.branchElement.className.indexOf(this.btoggle) != -1)
+                a.branchElement.className = a.branchElement.className.replace(this.expanded, '');
             else a.parentElement.removeChild(elBranch);
             triangle = '▶';
             isOpened = false;
@@ -63,8 +65,8 @@ var myTreeView = {
                 var indexBranch = a.branchElement.className.indexOf('branch');
                 if ((indexBranch == -1) || (indexBranch == a.branchElement.className.indexOf('branchLeft')))
                     a.branchElement.className += ' branch';
-                if (a.params.animate)
-                    a.branchElement.className += ' b-toggle';
+                if (a.params.animate && (a.branchElement.className.indexOf(this.btoggle) == -1))
+                    a.branchElement.className += ' ' + this.btoggle;
                 if ((typeof a.params.noBranchLeft == 'undefined') || !a.params.noBranchLeft)
                     a.branchElement.className += ' branchLeft';
             }
@@ -74,8 +76,8 @@ var myTreeView = {
                     setTimeout(function () { a.branchElement.scrollIntoView(); }, 0);
             }
 
-            if (a.branchElement.className.indexOf('b-toggle') != -1)
-                a.branchElement.className += ' expanded';
+            if (a.branchElement.className.indexOf(this.btoggle) != -1)
+                a.branchElement.className += this.expanded;
 
             triangle = '▼';
             isOpened = true;
@@ -117,7 +119,7 @@ var myTreeView = {
                         }
                         if (el.className != '')
                             el.className += ' ';
-                        el.className += (branch.animate ? " b-toggle" : "");
+                        el.className += (branch.animate ? " " + this.btoggle : "");
                         return el;
                     },
                     branch: branch
