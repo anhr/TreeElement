@@ -77,7 +77,7 @@ var myTreeView = {
             }
 
             if (a.branchElement.className.indexOf(this.btoggle) != -1)
-                a.branchElement.className += this.expanded;
+                setTimeout(function () { a.branchElement.className += myTreeView.expanded; }, 0);
 
             triangle = '▼';
             isOpened = true;
@@ -119,7 +119,7 @@ var myTreeView = {
                         }
                         if (el.className != '')
                             el.className += ' ';
-                        el.className += (branch.animate ? " " + this.btoggle : "");
+                        el.className += (branch.animate ? " " + myTreeView.btoggle : "");
                         return el;
                     },
                     branch: branch
