@@ -58,8 +58,11 @@ var myTreeView = {
             if (typeof a.params.onCloseBranch != 'undefined')
                 a.params.onCloseBranch(a);
         } else {
-            if (typeof a.branchElement == 'undefined')
+            if (typeof a.branchElement == 'undefined') {
                 a.branchElement = a.params.createBranch();
+                if (a.params.animate)
+                    a.branchElement.className += ' b-toggle';
+            }
             if (!elBranch) {
                 if (a.branchElement.className.indexOf(' branch') == -1)
                     a.branchElement.className += ' branch';
