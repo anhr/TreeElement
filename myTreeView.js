@@ -61,9 +61,13 @@ var myTreeView = {
                 a.params.onCloseBranch(a);
         } else {
             if (typeof a.branchElement == 'undefined') {
+                if (typeof a.params == "undefined")
+                    a.params = {};
                 if (typeof a.params.createBranch == "function")
                     a.branchElement = a.params.createBranch();
                 else {
+                    if (typeof a.params.tree == "undefined")
+                        a.params.tree = [];
                     if (typeof a.params.tree == "object") {
                         var el = document.createElement("div");
                         if (a.params.tree.length == 0)
@@ -183,7 +187,12 @@ var myTreeView = {
                 elNewBranch.innerHTML = branch.name;
                 elBranch.appendChild(elNewBranch);
             } else consoleError('invalid typeof branch.branch: ' + typeof branch.branch);
+        } else {
+            if (typeof elTreeView.params == "undefined")
+                elTreeView.params = {};
+            if (typeof elTreeView.params.tree == "undefined")
+                elTreeView.params.tree = [];
+            elTreeView.params.tree.push(branch);
         }
-        else elTreeView.params.tree.push(branch);
     }
 }
