@@ -61,7 +61,33 @@ var myTreeView = {
                 a.params.onCloseBranch(a);
         } else {
             if (typeof a.branchElement == 'undefined') {
-                a.branchElement = a.params.createBranch();
+                if (typeof a.params.createBranch == "function")
+                    a.branchElement = a.params.createBranch();
+                else {
+                    if (typeof a.params.tree == "object") {
+                        var el = document.createElement("div");
+                        if (a.params.tree.length == 0)
+                            consoleError('empty branch');
+                        a.params.tree.forEach(function (branch) {
+                            var elBranch = document.createElement("div");
+                            if (typeof branch.branch == "function") {
+                                var branch = branch.branch();
+                                switch (typeof branch) {
+                                    case "string":
+                                        elBranch.innerHTML = branch;
+                                        break;
+                                    case "object":
+                                        elBranch.appendChild(branch);
+                                        break;
+                                    default: consoleError('invalid typeof branch: ' + typeof branch);
+                                }
+                            }
+                            else elBranch.innerHTML = branch.name;
+                            el.appendChild(elBranch);
+                        });
+                        a.branchElement = el;
+                    } else consoleError('invalid a.params.tree: ' + a.params.tree);
+                }
                 var indexBranch = a.branchElement.className.indexOf('branch');
                 if ((indexBranch == -1) || (indexBranch == a.branchElement.className.indexOf('branchLeft')))
                     a.branchElement.className += ' branch';
@@ -129,5 +155,35 @@ var myTreeView = {
                 className: branch.className
             }
         ));
+    },
+    AddNewBranch: function (elTree, branch) {
+        if (typeof elTree == "string")
+            elTree = document.getElementById(elTree);
+        var elTreeView = elTree.querySelector('.treeView');
+        var elBranch = elTree.querySelector('.branch');
+        if (!elBranch)
+            elBranch = elTreeView.branchElement;//branch exists but hidden
+        if (elBranch) {
+            if (typeof branch.branch == "function") {
+                var elNewBranch;
+                var branch = branch.branch();
+                switch (typeof branch) {
+                    case "string":
+                        elNewBranch = document.createElement('div');
+                        elNewBranch.innerHTML = branch;
+                        break;
+                    case "object":
+                        elNewBranch = branch;
+                        break;
+                    default: consoleError('invalid typeof branch: ' + typeof branch);
+                }
+                elBranch.appendChild(elNewBranch);
+            } else if (typeof branch.name == "string") {
+                var elNewBranch = document.createElement('div');
+                elNewBranch.innerHTML = branch.name;
+                elBranch.appendChild(elNewBranch);
+            } else consoleError('invalid typeof branch.branch: ' + typeof branch.branch);
+        }
+        else elTreeView.params.tree.push(branch);
     }
 }

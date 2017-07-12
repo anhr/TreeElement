@@ -10,8 +10,8 @@
     <script type="text/javascript">
         function consoleLog(message) { console.log(message); }
         function consoleError(message) {
-            alert(message);
-            //console.error(message);
+            //alert(message);
+            console.error(message);
         }
     </script>
 </head>
@@ -126,5 +126,29 @@
             consoleError(e.message);
         }
     </script>
+
+    <!--Add new branch into existing tree-->
+    <h2>Add new branch into existing tree</h2>
+    <div id="AddNewBranch"></div>
+    <div id="AddNewBranch"><input type="button" onclick="javascript: onclickAddNewBranch()" value="Add New Branch" /></div>
+    <script type="text/javascript">
+        document.getElementById("AddNewBranch").appendChild(myTreeView.createBranch({name: "Tree",params: { tree: [] }}));
+        function onclickAddNewBranch() {
+
+            //Add simply branch
+            //myTreeView.AddNewBranch("AddNewBranch", { name: "New Branch" });
+            
+            //or add complex branch
+            myTreeView.AddNewBranch("AddNewBranch", {
+                branch: function () {
+                    //return "New Branch";
+                    var el = document.createElement("div");
+                    el.innerHTML = "New Branch";
+                    return el;
+                }
+            });
+        }
+    </script>
+
 </body>
 </html>
