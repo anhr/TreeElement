@@ -132,7 +132,7 @@
     <div id="AddNewBranch"></div>
     <div id="AddNewBranch"><input type="button" onclick="javascript: onclickAddNewBranch()" value="Add New Branch" /></div>
     <script type="text/javascript">
-        document.getElementById("AddNewBranch").appendChild(myTreeView.createBranch({name: "Tree"}));
+        document.getElementById("AddNewBranch").appendChild(myTreeView.createBranch({ name: "Tree", params: { tree: [{name: "First Branch"}] }}));
         function onclickAddNewBranch() {
 
             //Add simply branch
