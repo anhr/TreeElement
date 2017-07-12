@@ -81,7 +81,7 @@ var myTreeView = {
                                         elBranch.innerHTML = branch;
                                         break;
                                     case "object":
-                                        elBranch.appendChild(branch);
+                                        elBranch = branch;
                                         break;
                                     default: consoleError('invalid typeof branch: ' + typeof branch);
                                 }
