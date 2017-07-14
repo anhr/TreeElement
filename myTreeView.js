@@ -29,12 +29,13 @@ var myTreeView = {
         var el = document.createElement((typeof options.tagName == 'undefined') ? "div" : options.tagName);
         if ((typeof options.className != 'undefined'))
             el.className = options.className;
+        var treeViewTagName = typeof options.treeViewTagName == 'undefined' ? 'span' : options.treeViewTagName;
         el.innerHTML =
-            '<span class="treeView" onclick="javascript: myTreeView.onclickBranch(this)" '
+            '<' + treeViewTagName + ' class="treeView" onclick="javascript: myTreeView.onclickBranch(this)" '
                     + ((typeof options.title == 'undefined') ? '' : 'title="' + options.title + '"') + '>'
                 + '<span class="triangle">▶</span>'
                 + '<span class="name">' + options.name + '</span>'
-            + '</span>'
+            + '</' + treeViewTagName + '>'
         ;
         var elA = el.querySelector('.treeView');
         elA.params = options.params;
