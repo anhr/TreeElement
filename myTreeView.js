@@ -43,7 +43,11 @@ var myTreeView = {
     },
     onclickBranch: function (a) {
         consoleLog("onclickBranch()");
-        var elBranch = a.parentElement.querySelector('.branch')
+        var parentElement = ((typeof a.params.branch != 'undefined') && (typeof a.params.branch.parentElement != 'undefined')) ?
+            a.params.branch.parentElement : (typeof a.params.parentElement == 'undefined') ? a.parentElement : a.params.parentElement;
+        if (typeof parentElement == "string")
+            parentElement = document.getElementById(parentElement);
+        var elBranch = parentElement.querySelector('.branch')
         var triangle;
         var isOpened = elBranch ?
             (
@@ -55,7 +59,7 @@ var myTreeView = {
         if (isOpened) {
             if (a.branchElement.className.indexOf(this.btoggle) != -1)
                 a.branchElement.className = a.branchElement.className.replace(this.expanded, '');
-            else a.parentElement.removeChild(elBranch);
+            else parentElement.removeChild(elBranch);
             triangle = '▶';
             isOpened = false;
             if (typeof a.params.onCloseBranch != 'undefined')
@@ -64,34 +68,44 @@ var myTreeView = {
             if (typeof a.branchElement == 'undefined') {
                 if (typeof a.params == "undefined")
                     a.params = {};
-                if (typeof a.params.createBranch == "function")
-                    a.branchElement = a.params.createBranch();
-                else {
-                    if (typeof a.params.tree == "undefined")
-                        a.params.tree = [];
-                    if (typeof a.params.tree == "object") {
-                        var el = document.createElement("div");
-                        if (a.params.tree.length == 0)
-                            consoleError('empty branch');
-                        a.params.tree.forEach(function (branch) {
-                            var elBranch = document.createElement("div");
-                            if (typeof branch.branch == "function") {
-                                var branch = branch.branch();
-                                switch (typeof branch) {
-                                    case "string":
-                                        elBranch.innerHTML = branch;
-                                        break;
-                                    case "object":
-                                        elBranch = branch;
-                                        break;
-                                    default: consoleError('invalid typeof branch: ' + typeof branch);
+                switch(typeof a.params.createBranch){
+                    case "function":
+                        a.branchElement = a.params.createBranch();
+                        break;
+                    case "string":
+                        a.branchElement = document.getElementById(a.params.createBranch);
+                        if (a.branchElement == null) {
+                            a.branchElement = document.createElement("div");
+                            a.branchElement.innerText = a.params.createBranch;
+                        }
+                        break;
+                    case "undefined"://tree
+                        if (typeof a.params.tree == "undefined")
+                            a.params.tree = [];
+                        if (typeof a.params.tree == "object") {
+                            var el = document.createElement("div");
+                            if (a.params.tree.length == 0)
+                                consoleError('empty branch');
+                            a.params.tree.forEach(function (branch) {
+                                var elBranch = document.createElement("div");
+                                if (typeof branch.branch == "function") {
+                                    var branch = branch.branch();
+                                    switch (typeof branch) {
+                                        case "string":
+                                            elBranch.innerHTML = branch;
+                                            break;
+                                        case "object":
+                                            elBranch = branch;
+                                            break;
+                                        default: consoleError('invalid typeof branch: ' + typeof branch);
+                                    }
                                 }
-                            }
-                            else elBranch.innerHTML = branch.name;
-                            el.appendChild(elBranch);
-                        });
-                        a.branchElement = el;
-                    } else consoleError('invalid a.params.tree: ' + a.params.tree);
+                                else elBranch.innerHTML = branch.name;
+                                el.appendChild(elBranch);
+                            });
+                            a.branchElement = el;
+                        } else consoleError('invalid a.params.tree: ' + a.params.tree);
+                        break;
                 }
                 var indexBranch = a.branchElement.className.indexOf('branch');
                 if ((indexBranch == -1) || (indexBranch == a.branchElement.className.indexOf('branchLeft')))
@@ -102,7 +116,7 @@ var myTreeView = {
                     a.branchElement.className += ' branchLeft';
             }
             if (!elBranch) {
-                a.parentElement.appendChild(a.branchElement);
+                parentElement.appendChild(a.branchElement);
                 if (a.params.scrollIntoView || ((typeof a.params.branch != 'undefined') && (a.params.branch.scrollIntoView)))
                     setTimeout(function () { a.branchElement.scrollIntoView(); }, 0);
             }
@@ -123,6 +137,23 @@ var myTreeView = {
         return isOpened;
     },
     appendBranch: function (elTree, branch) {
+        if (typeof elTree == "string")
+            elTree = document.getElementById(elTree);
+        var parentElement;
+        switch (typeof branch.parentElement) {
+            case "undefined":
+                break;
+            case "string":
+                parentElement = document.getElementById(branch.parentElement);
+                break;
+            case "object":
+                parentElement = branch.parentElement;
+                break;
+            default: consoleError("Invalid typeof branch.parentElement: " + typeof branch.parentElement);
+        }
+        var branchClass = "branch";
+        if (parentElement && (parentElement.className.indexOf(branchClass) == -1))
+            parentElement.className += " " + branchClass;
         elTree.appendChild(myTreeView.createBranch(
             {
                 name: branch.name,

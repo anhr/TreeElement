@@ -130,7 +130,7 @@
     <!--Add new branch into existing tree-->
     <h2>Add new branch into existing tree</h2>
     <div id="AddNewBranch"></div>
-    <div id="AddNewBranch"><input type="button" onclick="javascript: onclickAddNewBranch()" value="Add New Branch" /></div>
+    <input type="button" onclick="javascript: onclickAddNewBranch()" value="Add New Branch" /></div>
     <script type="text/javascript">
         document.getElementById("AddNewBranch").appendChild(myTreeView.createBranch({ name: "Tree", params: { tree: [{name: "First Branch"}] }}));
         function onclickAddNewBranch() {
@@ -150,5 +150,36 @@
         }
     </script>
 
+    <!--Branch anywhere-->
+    <h2>Branch anywhere</h2>
+    <div id="BranchAnywhere"></div>
+    <p>Some element inside the tree, but not a tree branch</p>
+    <div id="Branch"></div>
+    <script type="text/javascript">
+        myTreeView.createTree(
+            "BranchAnywhere",
+            [
+                {
+                    name: "Branch Anywhere Tree",
+                    branch: "Branch Anywhere",
+                    parentElement: "Branch"
+                }
+            ]
+        );
+    </script>
+    <div id="BranchAnywhere2"></div>
+    <p>Some element inside the tree, but not a tree branch</p>
+    <div id="Branch2"></div>
+    <script type="text/javascript">
+        document.getElementById("BranchAnywhere2").appendChild(myTreeView.createBranch(
+        {
+            name: "Branch Anywhere Tree 2",
+            params:
+            {
+                parentElement: "Branch2",
+                createBranch: "Branch Anywhere 2"
+            }
+        }));
+    </script>
 </body>
 </html>
