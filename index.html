@@ -130,23 +130,44 @@
     <!--Add new branch into existing tree-->
     <h2>Add new branch into existing tree</h2>
     <div id="AddNewBranch"></div>
-    <input type="button" onclick="javascript: onclickAddNewBranch()" value="Add New Branch" /></div>
+    <input type="button" onclick="javascript: onclickAddNewBranch()" value="Add New Branch" />
+    <input type="button" onclick="javascript: onclickRemoveAllNewBranches()" value="Remove All New Branches" />
+    <input type="button" onclick="javascript: onclickRemoveFirstBranch()" value="Remove First Branch" />
     <script type="text/javascript">
-        document.getElementById("AddNewBranch").appendChild(myTreeView.createBranch({ name: "Tree", params: { tree: [{name: "First Branch"}] }}));
+        document.getElementById("AddNewBranch").appendChild(myTreeView.createBranch({
+            name: "Tree", params: { tree: [{ name: "First Branch", branchId: "First Branch Id" }]}
+        }));
         function onclickAddNewBranch() {
 
             //Add simply branch
-            //myTreeView.AddNewBranch("AddNewBranch", { name: "New Branch" });
+            myTreeView.AddNewBranch("AddNewBranch", { name: "New Branch", branchId: "Added Branch" });
             
-            //or add complex branch
+            //add complex branch
             myTreeView.AddNewBranch("AddNewBranch", {
                 branch: function () {
-                    //return "New Branch";
+                    /*
                     var el = document.createElement("div");
                     el.innerHTML = "New Branch";
+                    el.branchId = this.branchId;
                     return el;
-                }
+                    */
+                    return myTreeView.createBranch({
+                        name: "New Tree", params: {
+                            tree: [{ name: "New Branch" }],
+                            branchId: this.branchId
+                        }
+                    });
+                },
+                branchId: "Added Branch"
             });
+        }
+        function onclickRemoveAllNewBranches() {
+            if (!myTreeView.removeBranch("Added Branch", document.getElementById('AddNewBranch')))
+                alert('Branch is not detected and not removed');
+        }
+        function onclickRemoveFirstBranch() {
+            if (!myTreeView.removeBranch("First Branch Id", 'AddNewBranch'))
+                alert('Branch is not detected and not removed');
         }
     </script>
 
@@ -157,29 +178,22 @@
     <div id="Branch"></div>
     <script type="text/javascript">
         myTreeView.createTree(
-            "BranchAnywhere",
-            [
-                {
+            "BranchAnywhere", [ {
                     name: "Branch Anywhere Tree",
                     branch: "Branch Anywhere",
                     parentElement: "Branch"
-                }
-            ]
-        );
+                }]);
     </script>
     <div id="BranchAnywhere2"></div>
     <p>Some element inside the tree, but not a tree branch</p>
     <div id="Branch2"></div>
     <script type="text/javascript">
-        document.getElementById("BranchAnywhere2").appendChild(myTreeView.createBranch(
-        {
+        document.getElementById("BranchAnywhere2").appendChild(myTreeView.createBranch({
             name: "Branch Anywhere Tree 2",
-            params:
-            {
+            params: {
                 parentElement: "Branch2",
                 createBranch: "Branch Anywhere 2"
-            }
-        }));
+            }}));
     </script>
 </body>
 </html>
