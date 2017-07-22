@@ -279,5 +279,26 @@ var myTreeView = {
             }
         }
         return res;
+    },
+    removeAllBranches: function (elTree) {
+        if (typeof elTree == "string")
+            elTree = document.getElementById(elTree);
+        var elTreeView = elTree.querySelector('.treeView');
+        var tree = elTreeView.params.tree;
+        var res = false;//Branch is not detected and not removed
+        if (typeof tree == 'undefined') {
+            var elBranches = elTree.querySelector('.branch');
+            var childNodes = elBranches == null ? elTreeView.branchElement.childNodes : elBranches.childNodes;
+            for (var i = childNodes.length - 1; i >= 0; i--) {
+                var elBranch = childNodes[i];
+                elBranch.parentElement.removeChild(elBranch);
+                res = true;
+            }
+        } else {
+            if (tree.length > 0)
+                res = true;
+            elTreeView.params.tree = [];
+        }
+        return res;
     }
 }

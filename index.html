@@ -133,6 +133,7 @@
     <input type="button" onclick="javascript: onclickAddNewBranch()" value="Add New Branch" />
     <input type="button" onclick="javascript: onclickRemoveAllNewBranches()" value="Remove All New Branches" />
     <input type="button" onclick="javascript: onclickRemoveFirstBranch()" value="Remove First Branch" />
+    <input type="button" onclick="javascript: onclickRemoveAllBranches()" value="Remove All Branches" />
     <script type="text/javascript">
         document.getElementById("AddNewBranch").appendChild(myTreeView.createBranch({
             name: "Tree", params: { tree: [{ name: "First Branch", branchId: "First Branch Id" }]}
@@ -168,6 +169,10 @@
         function onclickRemoveFirstBranch() {
             if (!myTreeView.removeBranch("First Branch Id", 'AddNewBranch'))
                 alert('Branch is not detected and not removed');
+        }
+        function onclickRemoveAllBranches() {
+            if (!myTreeView.removeAllBranches('AddNewBranch'))
+                alert('Branches is not detected and not removed');
         }
     </script>
 
