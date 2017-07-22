@@ -125,7 +125,7 @@ var myTreeView = {
                     setTimeout(function () { a.branchElement.scrollIntoView(); }, 0);
             }
 
-            if (a.branchElement.className.indexOf(this.btoggle) != -1)
+            if ((a.branchElement.className.indexOf(this.btoggle) != -1) && (a.branchElement.className.indexOf(this.expanded) == -1))
                 setTimeout(function () { a.branchElement.className += myTreeView.expanded; }, 0);
 
             triangle = '▼';
