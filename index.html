@@ -109,6 +109,11 @@
                             var el = document.createElement("div");
                             el.className = "branchLeft";
                             el.appendChild(document.createElement("input"));
+                            var elClose = document.createElement("input");
+                            elClose.type = "button";
+                            elClose.onclick = myTreeView.onclickCloseBranch;
+                            elClose.value = "Close Branch";
+                            el.appendChild(elClose);
                             return el;
                         },
                         title: "inline-element",

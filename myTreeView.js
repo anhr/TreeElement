@@ -300,5 +300,10 @@ var myTreeView = {
             elTreeView.params.tree = [];
         }
         return res;
+    },
+    onclickCloseBranch: function () {
+        if (!event) event = window.event;
+        var el = event.target || event.srcElement;
+        myTreeView.onclickBranch(el.parentElement.parentElement.querySelector('.treeView'));
     }
 }
