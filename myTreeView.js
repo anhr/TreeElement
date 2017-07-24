@@ -233,6 +233,45 @@ var myTreeView = {
             elTreeView.params.tree.push(branch);
         }
     },
+    isBranchExists: function (branchId, elTree){
+        if (typeof elTree == "string")
+            elTree = document.getElementById(elTree);
+        var elTreeView = elTree.querySelector('.treeView');
+        if (elTreeView == null)
+            return false;
+        var tree = elTreeView.params.tree;
+        if (typeof tree == 'undefined') {
+            var elBranches = elTree.querySelector('.branch');
+            var childNodes = elBranches == null ? elTreeView.branchElement.childNodes : elBranches.childNodes;
+            for (var i = childNodes.length - 1; i >= 0; i--) {
+                var elBranch = childNodes[i];
+                var elTreeViewChild = elBranch.querySelector('.treeView');
+                var boDeleteBranch = false;
+                if (elTreeViewChild) {
+                    if (elTreeViewChild.params.branchId == branchId)
+                        return true;
+                } else if (typeof elBranch.branchId == 'undefined') {
+                    consoleError('elBranch.branchId: ' + elBranch.branchId);
+                    if (elBranch.innerText == branchId)
+                        return true;
+                } else {
+                    if (elBranch.branchId == branchId)
+                        return true;
+                }
+            }
+        } else {
+            for (var i = tree.length - 1; i >= 0; i--) {
+                var branch = tree[i];
+                if (typeof branch.branchId == 'undefined') {
+                    consoleError('branch.branchId: ' + branch.branchId);
+                    if (branch.name == branchId)
+                        return true;
+                } else if (branch.branchId == branchId)
+                    return true;
+            }
+        }
+        return false;
+    },
     removeBranch: function (branchId, elTree) {
         if (typeof elTree == "string")
             elTree = document.getElementById(elTree);
