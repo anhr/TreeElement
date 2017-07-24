@@ -237,6 +237,8 @@ var myTreeView = {
         if (typeof elTree == "string")
             elTree = document.getElementById(elTree);
         var elTreeView = elTree.querySelector('.treeView');
+        if (elTreeView == null)
+            return res;
         var tree = elTreeView.params.tree;
         var res = false;//Branch is not detected and not removed
         if (typeof tree == 'undefined') {
@@ -283,9 +285,11 @@ var myTreeView = {
     removeAllBranches: function (elTree) {
         if (typeof elTree == "string")
             elTree = document.getElementById(elTree);
-        var elTreeView = elTree.querySelector('.treeView');
-        var tree = elTreeView.params.tree;
         var res = false;//Branch is not detected and not removed
+        var elTreeView = elTree.querySelector('.treeView');
+        if (elTreeView == null)
+            return res;
+        var tree = elTreeView.params.tree;
         if (typeof tree == 'undefined') {
             var elBranches = elTree.querySelector('.branch');
             var childNodes = elBranches == null ? elTreeView.branchElement.childNodes : elBranches.childNodes;
