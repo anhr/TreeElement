@@ -347,6 +347,10 @@ var myTreeView = {
     onclickCloseBranch: function () {
         if (!event) event = window.event;
         var el = event.target || event.srcElement;
-        myTreeView.onclickBranch(el.parentElement.parentElement.querySelector('.treeView'));
+        var elParent = el.parentElement.parentElement;
+        var elTreeView = elParent.querySelector('.treeView');
+        if (elTreeView.parentElement != elParent)
+            consoleError('incorrect treeView');
+        myTreeView.onclickBranch(elTreeView);
     }
 }
