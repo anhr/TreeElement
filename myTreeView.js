@@ -138,6 +138,8 @@ var myTreeView = {
         a.querySelector('.triangle').innerHTML = triangle;
         if ((typeof a.params.branch != 'undefined') && (typeof a.params.branch.onclickBranch != 'undefined'))
             a.params.branch.onclickBranch(a);
+        else if (typeof a.params.onclickBranch != 'undefined')
+            a.params.onclickBranch(a);
         return isOpened;
     },
     appendBranch: function (elTree, branch) {
