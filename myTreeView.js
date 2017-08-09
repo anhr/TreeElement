@@ -57,7 +57,7 @@ var myTreeView = {
             )
             : false;
         if (isOpened) {
-            if (a.branchElement.className.indexOf(this.btoggle) != -1)
+            if ((typeof a.branchElement != 'undefined') && (a.branchElement.className.indexOf(this.btoggle) != -1))
                 a.branchElement.className = a.branchElement.className.replace(this.expanded, '');
             else parentElement.removeChild(elBranch);
             triangle = '▶';
