@@ -70,7 +70,7 @@ var myTreeView = {
                     a.params = {};
                 switch(typeof a.params.createBranch){
                     case "function":
-                        a.branchElement = a.params.createBranch();
+                        a.branchElement = a.params.createBranch(a);
                         break;
                     case "string":
                         a.branchElement = document.getElementById(a.params.createBranch);
@@ -354,5 +354,10 @@ var myTreeView = {
         if (elTreeView.parentElement != elParent)
             consoleError('incorrect treeView');
         myTreeView.onclickBranch(elTreeView);
+    },
+    onCloseBranchAnywhere: function (event) {
+        if (!event) event = window.event;
+        var el = event.target || event.srcElement;
+        el.parentElement.elTreeView.onclick();
     }
 }

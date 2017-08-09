@@ -198,11 +198,17 @@
     <p>Some element inside the tree, but not a tree branch</p>
     <div id="Branch2"></div>
     <script type="text/javascript">
-        document.getElementById("BranchAnywhere2").appendChild(myTreeView.createBranch({
+        var elBranchAnywhere2 = document.getElementById("BranchAnywhere2");
+        elBranchAnywhere2.appendChild(myTreeView.createBranch({
             name: "Branch Anywhere Tree 2",
             params: {
                 parentElement: "Branch2",
-                createBranch: "Branch Anywhere 2"
+                createBranch: function (elTreeView) {
+                    var el = document.createElement("div");
+                    el.innerHTML = 'Branch Anywhere 2 <input type="button" onclick="javascript: myTreeView.onCloseBranchAnywhere(event)" value="Close Branch" />';
+                    el.elTreeView = elTreeView;//for myTreeView.onCloseBranchAnywhere(event)
+                    return el;
+                }
             }}));
     </script>
 </body>
