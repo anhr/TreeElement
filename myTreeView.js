@@ -346,7 +346,7 @@ var myTreeView = {
         }
         return res;
     },
-    onclickCloseBranch: function () {
+    onclickCloseBranch: function (event) {
         if (!event) event = window.event;
         var el = event.target || event.srcElement;
         var elParent = el.parentElement.parentElement;
