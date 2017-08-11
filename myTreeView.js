@@ -4,6 +4,7 @@
  * email: anhr@mail.ru
  * About me: http://anhr.ucoz.net/AboutMe/
  * source: https://github.com/anhr/TreeElement
+ * example: http://anhr.ucoz.net/TreeElement/
  * Licences: GPL, The MIT License (MIT)
  * Copyright: (c) 2015 Andrej Hristoliubov
  *
