@@ -77,6 +77,19 @@
         }
     </script>
 
+    <!--Simple Tree 3-->
+    <h2>Simple Tree 3</h2>
+    <div id="SimpleTree3"></div>
+    <div id="SimpleBranch3">Simple Branch 3</div>
+    <script type="text/javascript">
+        myTreeView.createTree(
+            "SimpleTree3", [{
+                name: 'Simple Tree 3',
+                branch: document.getElementById('SimpleBranch3'),
+                animate: true
+            }]);
+    </script>
+
     <!--Complex Tree-->
     <h2>Complex Tree</h2>
     <div id="ComplexTree"></div>
