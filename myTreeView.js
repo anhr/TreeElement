@@ -23,6 +23,9 @@ var myTreeView = {
     createTree: function (elTree, tree) {
         tree.forEach(function (branch) {
             myTreeView.appendBranch(elTree, branch)
+            if (typeof branch.branch == "object"){
+                branch.branch.parentElement.removeChild(branch.branch);
+            }
         });
     },
     createBranch: function (options)
@@ -168,23 +171,28 @@ var myTreeView = {
                 {
                     createBranch: function () {
                         var el;
-                        if (typeof branch.branch == "function")
-                            el = branch.branch();
-                        else {
-                            el = document.createElement("div");
-                            var res = false;
-                            if (typeof branch.branch == "string") {
-                                el.innerText = branch.branch;
-                                res = true;
-                            }
-                            if (this.branch.tree) {
-                                this.branch.tree.forEach(function (branch) {
-                                    myTreeView.appendBranch(el, branch);
-                                });
-                                res = true;
-                            }
-                            if (!res)
-                                consoleError("Invalid branch");
+                        switch (typeof branch.branch) {
+                            case "function":
+                                el = branch.branch();
+                                break;
+                            case "object":
+                                el = branch.branch;
+                                break;
+                            default:
+                                el = document.createElement("div");
+                                var res = false;
+                                if (typeof branch.branch == "string") {
+                                    el.innerText = branch.branch;
+                                    res = true;
+                                }
+                                if (this.branch.tree) {
+                                    this.branch.tree.forEach(function (branch) {
+                                        myTreeView.appendBranch(el, branch);
+                                    });
+                                    res = true;
+                                }
+                                if (!res)
+                                    consoleError("Invalid branch");
                         }
                         if (el.className != '')
                             el.className += ' ';
