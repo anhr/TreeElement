@@ -25,6 +25,8 @@ var myTreeView = {
             myTreeView.appendBranch(elTree, branch)
             if (typeof branch.branch == "object"){
                 branch.branch.parentElement.removeChild(branch.branch);
+                if (branch.branch.style.display == "none")
+                    branch.branch.style.display = '';
             }
         });
     },
