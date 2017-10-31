@@ -36,9 +36,9 @@ var myTreeView = {
         if ((typeof options.className != 'undefined'))
             el.className = options.className;
         var treeViewTagName = typeof options.treeViewTagName == 'undefined' ? 'span' : options.treeViewTagName;
-        if (typeof options.name == 'function') {
-            el.appendChild(options.name());
-            return el;
+        switch (typeof options.name) {
+            case 'undefined': options.name = ''; break;
+            case 'function': el.appendChild(options.name()); return el;
         }
         el.innerHTML =
             '<' + treeViewTagName + ' class="treeView" onclick="javascript: myTreeView.onclickBranch(this)" '
