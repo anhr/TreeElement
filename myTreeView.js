@@ -221,27 +221,27 @@ var myTreeView = {
         if (!elBranch)
             elBranch = elTreeView.branchElement;//branch exists but hidden
         if (elBranch) {
+            var elNewBranch;
             if (typeof branch.branch == "function") {
-                var elNewBranch;
-                var branch = branch.branch();
-                switch (typeof branch) {
+                var newBranch = branch.branch();
+                switch (typeof newBranch) {
                     case "string":
                         elNewBranch = document.createElement('div');
-                        elNewBranch.innerHTML = branch;
+                        elNewBranch.innerHTML = newBranch;
                         break;
                     case "object":
-                        elNewBranch = branch;
+                        elNewBranch = newBranch;
                         break;
-                    default: consoleError('invalid typeof branch: ' + typeof branch);
+                    default: consoleError('invalid typeof branch: ' + typeof newBranch);
                 }
                 elBranch.appendChild(elNewBranch);
             } else if (typeof branch.name == "string") {
-                var elNewBranch = document.createElement('div');
+                elNewBranch = document.createElement('div');
                 elNewBranch.innerHTML = branch.name;
-                if (typeof branch.branchId != "undefined")
-                    elNewBranch.branchId = branch.branchId;//for branch removing
                 elBranch.appendChild(elNewBranch);
             } else consoleError('invalid typeof branch.branch: ' + typeof branch.branch);
+            if (typeof branch.branchId != "undefined")
+                elNewBranch.branchId = branch.branchId;//for branch removing
         } else {
             if (typeof elTreeView.params == "undefined")
                 elTreeView.params = {};
@@ -250,92 +250,54 @@ var myTreeView = {
             elTreeView.params.tree.push(branch);
         }
     },
-    isBranchExists: function (branchId, elTree){
-        if (typeof elTree == "string")
-            elTree = document.getElementById(elTree);
-        var elTreeView = elTree.querySelector('.treeView');
-        if (elTreeView == null)
-            return false;
-        var tree = elTreeView.params.tree;
+    isBranchExists: function (branchId, elTree) { return this.findBranch(elTree, branchId).length != 0; },
+    branchLength: function (elTree) { return this.findBranch(elTree).length; },
+    findBranch: function (elTree, branchId) {
+        if (typeof elTree == "string") elTree = document.getElementById(elTree);
+        var elTreeView = elTree.querySelector('.treeView'),
+            array = [];
+        if (elTreeView == null) return array;
+        var tree = elTreeView.params == undefined ? undefined : elTreeView.params.tree;
         if (typeof tree == 'undefined') {
-            var elBranches = elTree.querySelector('.branch');
-            var childNodes = elBranches == null ? elTreeView.branchElement.childNodes : elBranches.childNodes;
+            var elBranches = elTree.querySelector('.branch'),
+                childNodes = elBranches == null ?
+                    (elTreeView.branchElement == undefined ? null : elTreeView.branchElement.childNodes)
+                    : elBranches.childNodes;
+            if (childNodes == null) return array;
             for (var i = childNodes.length - 1; i >= 0; i--) {
-                var elBranch = childNodes[i];
-                var elTreeViewChild = elBranch.querySelector('.treeView');
-                var boDeleteBranch = false;
+                var elBranch = childNodes[i],
+                    res = false,//Branch is not detected
+                    elTreeViewChild = elBranch.querySelector('.treeView');
                 if (elTreeViewChild) {
-                    if (elTreeViewChild.params.branchId == branchId)
-                        return true;
+                    if (elTreeViewChild.params.branchId == undefined) consoleError('elTreeViewChild.params.branchId: ' + elTreeViewChild.params.branchId);
+                    if ((branchId == undefined) || (elTreeViewChild.params.branchId == branchId)) res = true;
                 } else if (typeof elBranch.branchId == 'undefined') {
                     consoleError('elBranch.branchId: ' + elBranch.branchId);
-                    if (elBranch.innerText == branchId)
-                        return true;
-                } else {
-                    if (elBranch.branchId == branchId)
-                        return true;
-                }
+                    if ((branchId == undefined) || (elBranch.innerText == branchId)) res = true;
+                } else if ((branchId == undefined) || (elBranch.branchId == branchId)) res = true;
+                if (res) array.push(elBranch);
             }
         } else {
             for (var i = tree.length - 1; i >= 0; i--) {
-                var branch = tree[i];
+                var branch = tree[i],
+                    res = false;//Branch is not detected
                 if (typeof branch.branchId == 'undefined') {
                     consoleError('branch.branchId: ' + branch.branchId);
-                    if (branch.name == branchId)
-                        return true;
-                } else if (branch.branchId == branchId)
-                    return true;
+                    if ((branchId == undefined) || (branch.name == branchId)) res = true;
+                } else if ((branchId == undefined) || (branch.branchId == branchId)) res = true;
+                if (res) array.push({ tree: tree, i: i });
             }
         }
-        return false;
+        return array;
     },
     removeBranch: function (branchId, elTree) {
-        if (typeof elTree == "string")
-            elTree = document.getElementById(elTree);
-        var elTreeView = elTree.querySelector('.treeView');
-        if (elTreeView == null)
-            return res;
-        var tree = elTreeView.params.tree;
+        var array = this.findBranch(elTree, branchId);
         var res = false;//Branch is not detected and not removed
-        if (typeof tree == 'undefined') {
-            var elBranches = elTree.querySelector('.branch');
-            var childNodes = elBranches == null ? elTreeView.branchElement.childNodes : elBranches.childNodes;
-            for (var i = childNodes.length - 1; i >= 0; i--) {
-                var elBranch = childNodes[i];
-                var elTreeViewChild = elBranch.querySelector('.treeView');
-                var boDeleteBranch = false;
-                if (elTreeViewChild) {
-                    if (elTreeViewChild.params.branchId == branchId)
-                        boDeleteBranch = true;
-                } else if (typeof elBranch.branchId == 'undefined') {
-                    consoleError('elBranch.branchId: ' + elBranch.branchId);
-                    if (elBranch.innerText == branchId)
-                        boDeleteBranch = true;
-                } else {
-                    if (elBranch.branchId == branchId)
-                        boDeleteBranch = true;
-                }
-                if (boDeleteBranch) {
-                    elBranch.parentElement.removeChild(elBranch);
-                    res = true;
-                }
-            }
-        } else {
-            for (var i = tree.length - 1; i >= 0; i--) {
-                var branch = tree[i];
-                var boDeleteBranch = false;
-                if (typeof branch.branchId == 'undefined') {
-                    consoleError('branch.branchId: ' + branch.branchId);
-                    if (branch.name == branchId)
-                        boDeleteBranch = true;
-                } else if (branch.branchId == branchId)
-                    boDeleteBranch = true;
-                if (boDeleteBranch) {
-                    tree.splice(i);
-                    res = true;
-                }
-            }
-        }
+        array.forEach(function (item) {
+            if (item.tree == undefined) item.parentElement.removeChild(item);
+            else item.tree.splice(item.i, 1);
+            res = true;
+        });
         return res;
     },
     removeAllBranches: function (elTree) {
