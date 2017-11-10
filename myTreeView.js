@@ -72,8 +72,10 @@ var myTreeView = {
             else parentElement.removeChild(elBranch);
             triangle = '▶';
             isOpened = false;
-            if (typeof a.params.onCloseBranch != 'undefined')
+            if (a.params.onCloseBranch != undefined)
                 a.params.onCloseBranch(a);
+            if ((a.params.branch != undefined) && (a.params.branch.onCloseBranch != undefined))
+                a.params.branch.onCloseBranch(a);
         } else {
             if (typeof a.branchElement == 'undefined') {
                 if (typeof a.params == "undefined")
@@ -140,9 +142,9 @@ var myTreeView = {
 
             triangle = '▼';
             isOpened = true;
-            if (typeof a.params.onOpenBranch != 'undefined')
+            if (a.params.onOpenBranch != undefined)
                 a.params.onOpenBranch(a);
-            if ((typeof a.params.branch != 'undefined') && (typeof a.params.branch.onOpenBranch != 'undefined'))
+            if ((a.params.branch != undefined) && (a.params.branch.onOpenBranch != undefined))
                 a.params.branch.onOpenBranch(a);
         }
         a.querySelector('.triangle').innerHTML = triangle;
