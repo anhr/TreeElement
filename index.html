@@ -35,21 +35,18 @@
     <div id="SimpleTree"></div>
     <script type="text/javascript">
         try{
-            document.getElementById("SimpleTree").appendChild(myTreeView.createBranch(
+            document.getElementById("SimpleTree").appendChild(myTreeView.createBranch({
+                name: "Simple Tree",
+                params:
                 {
-                    name: "Simple Tree",
-                    params:
-                    {
-                        createBranch: function () {
-                            var el = document.createElement("div");
-                            el.innerText = "Branch";
-                            return el;
-                        }
+                    createBranch: function () {
+                        var el = document.createElement("div");
+                        el.innerText = "Branch";
+                        return el;
                     }
-                }));
-        } catch (e) {
-            consoleError(e.message);
-        }
+                }
+            }));
+        } catch (e) { consoleError(e.message); }
     </script>
 
     <!--Simple Tree 2-->
@@ -57,24 +54,21 @@
     <div id="SimpleTree2"></div>
     <script type="text/javascript">
         try {
-            document.getElementById("SimpleTree2").appendChild(myTreeView.createBranch(
+            document.getElementById("SimpleTree2").appendChild(myTreeView.createBranch({
+                name: "Open Branch",
+                params:
                 {
-                    name: "Open Branch",
-                    params:
-                    {
-                        noBranchLeft: true,
-                        createBranch: function () {
-                            var el = document.createElement("div");
-                            el.innerText = "Branch";
-                            return el;
-                        },
-                        onOpenBranch: function (a) { a.querySelector(".name").innerText = "Close Branch"; },
-                        onCloseBranch: function (a) { a.querySelector(".name").innerText = "Open Branch"; }
-                    }
-                }));
-        } catch (e) {
-            consoleError(e.message);
-        }
+                    noBranchLeft: true,
+                    createBranch: function () {
+                        var el = document.createElement("div");
+                        el.innerText = "Branch";
+                        return el;
+                    },
+                    onOpenBranch: function (a) { a.querySelector(".name").innerText = "Close Branch"; },
+                    onCloseBranch: function (a) { a.querySelector(".name").innerText = "Open Branch"; }
+                }
+            }));
+        } catch (e) { consoleError(e.message); }
     </script>
 
     <!--Simple Tree 3-->

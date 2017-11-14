@@ -83,6 +83,12 @@ var myTreeView = {
                 switch(typeof a.params.createBranch){
                     case "function":
                         a.branchElement = a.params.createBranch(a);
+                        if (a.branchElement == null) {
+                            consoleError('Invalid branchElement: ' + a.branchElement);
+                            return;
+                        }
+                        if (a.branchElement.style.display == "none")
+                            a.branchElement.style.display = 'block';
                         break;
                     case "string":
                         a.branchElement = document.getElementById(a.params.createBranch);
