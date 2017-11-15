@@ -49,7 +49,7 @@ var myTreeView = {
         ;
         var elA = el.querySelector('.treeView');
         elA.params = options.params;
-        if (options.params.remember && (get_cookie(options.params.remember, 'false') == 'true')) this.onclickBranch(elA);
+        if ((options.params != undefined) && options.params.remember && (get_cookie(options.params.remember, 'false') == 'true')) this.onclickBranch(elA);
         return el;
     },
     onclickBranch: function (a) {
