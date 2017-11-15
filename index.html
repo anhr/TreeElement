@@ -13,6 +13,38 @@
             //alert(message);
             console.error(message);
         }
+        function get_cookie(cookie_name, defaultValue) {
+            if (!navigator.cookieEnabled) {
+                consoleError('navigator.cookieEnabled = ' + navigator.cookieEnabled);
+                //Enable cookie
+                //Chrome: Settings/Show advanced settings.../Privacy/Content settings.../Cookies/Allow local data to be set
+                return;
+            }
+            //http://ruseller.com/lessons.php?rub=28&id=593
+            var results = document.cookie.match('(^|;) ?' + cookie_name + '=([^;]*)(;|$)');
+
+            if (results)
+                return (unescape(results[2]));
+            if (typeof defaultValue == 'undefined')
+                return '';
+            return defaultValue;
+        }
+
+        function SetCookie(name, value, settings) {
+            if (!navigator.cookieEnabled) {
+                consoleError('navigator.cookieEnabled = ' + navigator.cookieEnabled);
+                //Enable cookie
+                //Chrome: Settings/Show advanced settings.../Privacy/Content settings.../Cookies/Allow local data to be set
+                return;
+            }
+
+            value = value.toString();
+            //http://ruseller.com/lessons.php?rub=28&id=593
+            var cookie_date = new Date();  // Текущая дата и время
+            cookie_date.setTime(cookie_date.getTime() + 1000 * 60 * 60 * 24 * 365);
+            document.cookie = name + "=" + value + ((typeof settings == 'undefined') ? '' : settings) + "; expires=" + cookie_date.toGMTString();
+            return 0;
+        }
     </script>
 </head>
 <body>
@@ -49,8 +81,8 @@
         } catch (e) { consoleError(e.message); }
     </script>
 
-    <!--Simple Tree 2-->
-    <h2>Simple Tree 2</h2>
+    <!--Open branch and close branch events-->
+    <h2>Open branch and close branch events</h2>
     <div id="SimpleTree2"></div>
     <script type="text/javascript">
         try {
@@ -69,6 +101,25 @@
                 }
             }));
         } catch (e) { consoleError(e.message); }
+    </script>
+
+    <!--Remember opened branch.-->
+    <h2>Remember opened branch.</h2>
+    <p>To test please open this branch and update the web page.</p>
+    <div id="Remember"></div>
+    <script type="text/javascript">
+        document.getElementById("Remember").appendChild(myTreeView.createBranch({
+            name: "Remember Branch",
+            params:
+            {
+                createBranch: function () {
+                    var el = document.createElement("div");
+                    el.innerText = "Branch";
+                    return el;
+                },
+                remember: "rememberBranch"
+            }
+        }));
     </script>
 
     <!--Simple Tree 3-->

@@ -49,6 +49,7 @@ var myTreeView = {
         ;
         var elA = el.querySelector('.treeView');
         elA.params = options.params;
+        if (options.params.remember && (get_cookie(options.params.remember, 'false') == 'true')) this.onclickBranch(elA);
         return el;
     },
     onclickBranch: function (a) {
@@ -153,6 +154,7 @@ var myTreeView = {
             if ((a.params.branch != undefined) && (a.params.branch.onOpenBranch != undefined))
                 a.params.branch.onOpenBranch(a);
         }
+        if (a.params.remember) SetCookie(a.params.remember, isOpened ? 'true' : 'false');
         a.querySelector('.triangle').innerHTML = triangle;
         if ((typeof a.params.branch != 'undefined') && (typeof a.params.branch.onclickBranch != 'undefined'))
             a.params.branch.onclickBranch(a);
@@ -213,7 +215,8 @@ var myTreeView = {
                         el.className += (branch.animate ? " " + myTreeView.btoggle : "");
                         return el;
                     },
-                    branch: branch
+                    branch: branch,
+                    remember: branch.remember
                 },
                 title: branch.title,
                 tagName: branch.tagName,
