@@ -30,8 +30,7 @@ var myTreeView = {
             }
         });
     },
-    createBranch: function (options)
-    {
+    createBranch: function (options) {
         var el = document.createElement((typeof options.tagName == 'undefined') ? "div" : options.tagName);
         if ((typeof options.className != 'undefined'))
             el.className = options.className;

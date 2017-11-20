@@ -19,5 +19,6 @@
     <None Include="myTreeView.css" />
     <None Include="myTreeView.js" />
     <None Include="README.md" />
+    <None Include="LICENSE" />
   </ItemGroup>
 </Project>

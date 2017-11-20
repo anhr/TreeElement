@@ -119,6 +119,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="index.html" />
+    <None Include="LICENSE" />
     <None Include="myTreeView.css" />
     <None Include="myTreeView.js" />
     <None Include="README.md" />
