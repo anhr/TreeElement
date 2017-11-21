@@ -1,6 +1,6 @@
 The cross-browser tree elements examples.
 
-Example: <a href='http://anhr.ucoz.net/TreeElement/' target="_blank">Tree Element</a>.
+Example: <a href='https://anhr.github.io/TreeElement/' target="_blank">Tree Element</a>.
 
 ## On the following browsers have been successfully tested:
 
