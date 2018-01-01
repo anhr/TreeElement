@@ -2,9 +2,9 @@
  * JavaScript source code
  * Author: Andrej Hristoliubov
  * email: anhr@mail.ru
- * About me: http://anhr.ucoz.net/AboutMe/
+ * About me: http://anhr.github.io/AboutMe/
  * source: https://github.com/anhr/TreeElement
- * example: http://anhr.ucoz.net/TreeElement/
+ * example: http://anhr.github.io/TreeElement/
  * Licences: GPL, The MIT License (MIT)
  * Copyright: (c) 2015 Andrej Hristoliubov
  *
@@ -42,7 +42,7 @@ var myTreeView = {
         el.innerHTML =
             '<' + treeViewTagName + ' class="treeView" onclick="javascript: myTreeView.onclickBranch(this)" '
                     + ((typeof options.title == 'undefined') ? '' : 'title="' + options.title + '"') + '>'
-                + '<span class="triangle">▶</span>'
+                + '<span class="triangle">▶</span>'//▶//⯈➤compatible with edge and ⯈ not compatible with Safari
                 + '<span class="name">' + options.name + '</span>'
             + '</' + treeViewTagName + '>'
         ;
