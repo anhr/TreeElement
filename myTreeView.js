@@ -31,9 +31,11 @@ var myTreeView = {
         });
     },
     createBranch: function (options) {
-        var el = document.createElement((typeof options.tagName == 'undefined') ? "div" : options.tagName);
-        if ((typeof options.className != 'undefined'))
+        var el = document.createElement((options.tagName == undefined) ? "div" : options.tagName);
+        if ((options.className != undefined))
             el.className = options.className;
+        if ((options.id != undefined))
+            el.id = options.id;
         var treeViewTagName = typeof options.treeViewTagName == 'undefined' ? 'span' : options.treeViewTagName;
         switch (typeof options.name) {
             case 'undefined': options.name = ''; break;
@@ -219,8 +221,9 @@ var myTreeView = {
                 },
                 title: branch.title,
                 tagName: branch.tagName,
-                className: branch.className
-            }
+                className: branch.className,
+                id: branch.id
+    }
         ));
     },
     AddNewBranch: function (elTree, branch) {
