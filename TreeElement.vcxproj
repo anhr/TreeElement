@@ -118,6 +118,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="branch1.html" />
     <None Include="index.html" />
     <None Include="LICENSE" />
     <None Include="myTreeView.css" />

@@ -204,7 +204,26 @@ var myTreeView = {
                                 }
                                 if (this.branch.tree) {
                                     this.branch.tree.forEach(function (branch) {
-                                        myTreeView.appendBranch(el, branch);
+                                        function appandBranch(branchText) {
+                                            var elChild = document.createElement('div');
+                                            elChild.innerHTML = branchText;
+                                            el.appendChild(elChild);
+                                        }
+                                        if (branch.name) myTreeView.appendBranch(el, branch);
+                                        else if (branch.el) appandBranch(branch.el);
+                                        else if (branch.file) {
+                                            var request = new myRequest();
+                                            request.url = branch.file;
+                                            request.XMLHttpRequestStart(function () {//onreadystatechange
+                                                request.ProcessReqChange(function (myRequest) {//processStatus200
+                                                    if (myRequest.processStatus200Error())
+                                                        return true;
+                                                    appandBranch(myRequest.req.responseText);
+                                                    return true;
+                                                });
+                                            });
+                                        }
+                                        else consoleError('Branch: ' + JSON.stringify(branch));
                                     });
                                     res = true;
                                 }

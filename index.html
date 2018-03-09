@@ -7,45 +7,8 @@
     <meta name="author" content="Andrej Hristoliubov anhr@mail.ru">
     <link rel="stylesheet" href="myTreeView.css" type="text/css">
     <script type="text/javascript" src="myTreeView.js"></script>
-    <script type="text/javascript">
-        function consoleLog(message) { console.log(message); }
-        function consoleError(message) {
-            //alert(message);
-            console.error(message);
-        }
-        function get_cookie(cookie_name, defaultValue) {
-            if (!navigator.cookieEnabled) {
-                consoleError('navigator.cookieEnabled = ' + navigator.cookieEnabled);
-                //Enable cookie
-                //Chrome: Settings/Show advanced settings.../Privacy/Content settings.../Cookies/Allow local data to be set
-                return;
-            }
-            //http://ruseller.com/lessons.php?rub=28&id=593
-            var results = document.cookie.match('(^|;) ?' + cookie_name + '=([^;]*)(;|$)');
-
-            if (results)
-                return (unescape(results[2]));
-            if (typeof defaultValue == 'undefined')
-                return '';
-            return defaultValue;
-        }
-
-        function SetCookie(name, value, settings) {
-            if (!navigator.cookieEnabled) {
-                consoleError('navigator.cookieEnabled = ' + navigator.cookieEnabled);
-                //Enable cookie
-                //Chrome: Settings/Show advanced settings.../Privacy/Content settings.../Cookies/Allow local data to be set
-                return;
-            }
-
-            value = value.toString();
-            //http://ruseller.com/lessons.php?rub=28&id=593
-            var cookie_date = new Date();  // Текущая дата и время
-            cookie_date.setTime(cookie_date.getTime() + 1000 * 60 * 60 * 24 * 365);
-            document.cookie = name + "=" + value + ((typeof settings == 'undefined') ? '' : settings) + "; expires=" + cookie_date.toGMTString();
-            return 0;
-        }
-    </script>
+    <script type="text/javascript" src="https://anhr.github.io/JS/Common.js"></script>
+    <script type="text/javascript" src="https://anhr.github.io/myRequest/myRequest.js"></script>
 </head>
 <body>
     <p><a href='../index.html'>Home</a> | <a href='https://github.com/anhr/TreeElement' target="_blank">GitHub</a></p>
@@ -158,7 +121,9 @@
                                         animate: true
                                     }
                                 ]
-                            }
+                            },
+                            { el: "<div>Branch from string</div>" },
+                            { file: "branch1.html" },
                         ]
                     },
                     {
@@ -182,7 +147,7 @@
                         branch: "branch 3",
                         title: "inline-element",
                         tagName: "span"
-                    }
+                    },
                 ]
             );
         } catch (e) {
