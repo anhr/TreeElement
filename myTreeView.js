@@ -204,10 +204,11 @@ var myTreeView = {
                                 }
                                 if (this.branch.tree) {
                                     this.branch.tree.forEach(function (branch) {
-                                        function appandBranch(branchText) {
+                                        function appandBranch(branchText, callback) {
                                             var elChild = document.createElement('div');
                                             elChild.innerHTML = branchText;
                                             el.appendChild(elChild);
+                                            if (callback != undefined) callback(elChild);
                                         }
                                         if (branch.name) myTreeView.appendBranch(el, branch);
                                         else if (branch.el) appandBranch(branch.el);
@@ -218,7 +219,7 @@ var myTreeView = {
                                                 request.ProcessReqChange(function (myRequest) {//processStatus200
                                                     if (myRequest.processStatus200Error())
                                                         return true;
-                                                    appandBranch(myRequest.req.responseText);
+                                                    appandBranch(myRequest.req.responseText, branch.callback);
                                                     return true;
                                                 });
                                             });
