@@ -204,22 +204,24 @@ var myTreeView = {
                                 }
                                 if (this.branch.tree) {
                                     this.branch.tree.forEach(function (branch) {
-                                        function appandBranch(branchText, callback) {
-                                            var elChild = document.createElement('div');
-                                            elChild.innerHTML = branchText;
-                                            el.appendChild(elChild);
-                                            if (callback != undefined) callback(elChild);
-                                        }
                                         if (branch.name) myTreeView.appendBranch(el, branch);
-                                        else if (branch.el) appandBranch(branch.el);
+                                        else if (branch.el) {
+                                            var elChild = document.createElement('div');
+                                            elChild.innerHTML = branch.el;
+                                            el.appendChild(elChild);
+                                        }
                                         else if (branch.file) {
+                                            var elChild = document.createElement('div');
+                                            elChild.innerHTML = 'branch from "' + branch.file + '" file';
+                                            el.appendChild(elChild);
                                             var request = new myRequest();
                                             request.url = branch.file;
                                             request.XMLHttpRequestStart(function () {//onreadystatechange
                                                 request.ProcessReqChange(function (myRequest) {//processStatus200
                                                     if (myRequest.processStatus200Error())
                                                         return true;
-                                                    appandBranch(myRequest.req.responseText, branch.callback);
+                                                    elChild.innerHTML = myRequest.req.responseText;
+                                                    if (branch.callback != undefined) branch.callback(elChild);
                                                     return true;
                                                 });
                                             });
