@@ -53,21 +53,30 @@ var myTreeView = {
         if ((options.params != undefined) && options.params.remember && (get_cookie(options.params.remember, 'false') == 'true')) this.onclickBranch(elA);
         return el;
     },
-    onclickBranch: function (a) {
-        consoleLog("onclickBranch()");
-        var parentElement = ((typeof a.params.branch != 'undefined') && (typeof a.params.branch.parentElement != 'undefined')) ?
-            a.params.branch.parentElement : (typeof a.params.parentElement == 'undefined') ? a.parentElement : a.params.parentElement;
+    getParentElement: function (a) {
+        var parentElement = ((a.params.branch != undefined) && (a.params.branch.parentElement != undefined)) ?
+            a.params.branch.parentElement : (a.params.parentElement == undefined) ? a.parentElement : a.params.parentElement;
         if (typeof parentElement == "string")
             parentElement = document.getElementById(parentElement);
-        var elBranch = parentElement.querySelector('.branch')
-        var triangle;
-        var isOpened = elBranch ?
+        return parentElement;
+    },
+    getElBranch: function (parentElement) { return parentElement.querySelector('.branch'); },
+    isOpenedBranch: function (elRoot) { return this.isOpened(this.getElBranch(this.getParentElement(elRoot.querySelector('.treeView')))); },
+    isOpened: function (elBranch) {
+        return elBranch ?
             (
                 (elBranch.className.indexOf(this.btoggle) == -1) ?
                 true :
                 ((elBranch.className.indexOf(this.expanded) != -1) ? true : false)
             )
             : false;
+    },
+    onclickBranch: function (a) {
+        consoleLog("onclickBranch()");
+        var parentElement = this.getParentElement(a),
+            elBranch = this.getElBranch(parentElement),
+            triangle,
+            isOpened = this.isOpened(elBranch);
         if (isOpened) {
             if ((typeof a.branchElement != 'undefined') && (a.branchElement.className.indexOf(this.btoggle) != -1))
                 a.branchElement.className = a.branchElement.className.replace(this.expanded, '');
