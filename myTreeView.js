@@ -380,5 +380,11 @@ var myTreeView = {
         if (!event) event = window.event;
         var el = event.target || event.srcElement;
         el.parentElement.elTreeView.onclick();
-    }
+    },
+    getTreeBranch: function (el, selectors) {
+        var branchElement = el.querySelector('.treeView').branchElement;
+        if (selectors)
+            return branchElement.querySelector(selectors);
+        return branchElement;
+    },
 }
