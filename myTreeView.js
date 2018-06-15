@@ -78,6 +78,11 @@ var myTreeView = {
             triangle,
             isOpened = this.isOpened(elBranch);
         if (isOpened) {
+            if (typeof a.branchElement != 'undefined')
+                //Parent element of the branch is null after closing of the branch.
+                //But some applications want to know it.
+                //Remembers a parent element in the rootElement member.
+                a.branchElement.rootElement = a.branchElement.parentElement;
             if ((typeof a.branchElement != 'undefined') && (a.branchElement.className.indexOf(this.btoggle) != -1))
                 a.branchElement.className = a.branchElement.className.replace(this.expanded, '');
             else parentElement.removeChild(elBranch);
