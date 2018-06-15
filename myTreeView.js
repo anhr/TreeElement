@@ -72,7 +72,7 @@ var myTreeView = {
             : false;
     },
     onclickBranch: function (a) {
-        consoleLog("onclickBranch()");
+        //consoleLog("onclickBranch()");
         var parentElement = this.getParentElement(a),
             elBranch = this.getElBranch(parentElement),
             triangle,
