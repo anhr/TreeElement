@@ -61,7 +61,11 @@ var myTreeView = {
         return parentElement;
     },
     getElBranch: function (parentElement) { return parentElement.querySelector('.branch'); },
-    isOpenedBranch: function (elRoot) { return this.isOpened(this.getElBranch(this.getParentElement(elRoot.querySelector('.treeView')))); },
+    isOpenedBranch: function (elRoot) {
+        if (!elRoot)
+            consoleError('isOpenedBranch(' + elRoot + ') failed!');
+        return this.isOpened(this.getElBranch(this.getParentElement(elRoot.querySelector('.treeView'))));
+    },
     isOpened: function (elBranch) {
         return elBranch ?
             (
