@@ -48,7 +48,7 @@ var myTreeView = {
                 + '<span class="name">' + options.name + '</span>'
             + '</' + treeViewTagName + '>'
         ;
-        var elA = el.querySelector('.treeView');
+        var elA = this.getElTreeView(el);
         elA.params = options.params;
         if ((options.params != undefined) && options.params.remember && (get_cookie(options.params.remember, 'false') == 'true')) this.onclickBranch(elA);
         return el;
@@ -61,10 +61,11 @@ var myTreeView = {
         return parentElement;
     },
     getElBranch: function (parentElement) { return parentElement.querySelector('.branch'); },
+    getElTreeView: function (parentElement) { return parentElement.querySelector('.treeView'); },
     isOpenedBranch: function (elRoot) {
         if (!elRoot)
             consoleError('isOpenedBranch(' + elRoot + ') failed!');
-        return this.isOpened(this.getElBranch(this.getParentElement(elRoot.querySelector('.treeView'))));
+        return this.isOpened(this.getElBranch(this.getParentElement(this.getElTreeView(elRoot))));
     },
     isOpened: function (elBranch) {
         return elBranch ?
@@ -269,7 +270,7 @@ var myTreeView = {
     AddNewBranch: function (elTree, branch) {
         if (typeof elTree == "string")
             elTree = document.getElementById(elTree);
-        var elTreeView = elTree.querySelector('.treeView');
+        var elTreeView = this.getElTreeView(elTree);
         var elBranch = this.getElBranch(elTree);
         if (!elBranch)
             elBranch = elTreeView.branchElement;//branch exists but hidden
@@ -307,7 +308,7 @@ var myTreeView = {
     branchLength: function (elTree) { return this.findBranch(elTree).length; },
     findBranch: function (elTree, branchId) {
         if (typeof elTree == "string") elTree = document.getElementById(elTree);
-        var elTreeView = elTree.querySelector('.treeView'),
+        var elTreeView = this.getElTreeView(elTree),
             array = [];
         if (elTreeView == null) return array;
         var tree = elTreeView.params == undefined ? undefined : elTreeView.params.tree;
@@ -320,7 +321,7 @@ var myTreeView = {
             for (var i = childNodes.length - 1; i >= 0; i--) {
                 var elBranch = childNodes[i],
                     res = false,//Branch is not detected
-                    elTreeViewChild = elBranch.querySelector('.treeView');
+                    elTreeViewChild = this.getElTreeView(elBranch);
                 if (elTreeViewChild) {
                     if (elTreeViewChild.params.branchId == undefined) consoleError('elTreeViewChild.params.branchId: ' + elTreeViewChild.params.branchId);
                     if ((branchId == undefined) || (elTreeViewChild.params.branchId == branchId)) res = true;
@@ -357,7 +358,7 @@ var myTreeView = {
         if (typeof elTree == "string")
             elTree = document.getElementById(elTree);
         var res = false;//Branch is not detected and not removed
-        var elTreeView = elTree.querySelector('.treeView');
+        var elTreeView = this.getElTreeView(elTree);
         if (elTreeView == null)
             return res;
         var tree = elTreeView.params.tree;
@@ -380,7 +381,7 @@ var myTreeView = {
         if (!event) event = window.event;
         var el = event.target || event.srcElement;
         var elParent = el.parentElement.parentElement;
-        var elTreeView = elParent.querySelector('.treeView');
+        var elTreeView = myTreeView.getElTreeView(elParent);
         if (elTreeView.parentElement != elParent)
             consoleError('incorrect treeView');
         myTreeView.onclickBranch(elTreeView);
@@ -391,7 +392,7 @@ var myTreeView = {
         el.parentElement.elTreeView.onclick();
     },
     getTreeBranch: function (el, selectors) {
-        var branchElement = el.querySelector('.treeView').branchElement;
+        var branchElement = myTreeView.getElTreeView(el).branchElement;
         if (selectors)
             return branchElement.querySelector(selectors);
         return branchElement;
