@@ -270,7 +270,7 @@ var myTreeView = {
         if (typeof elTree == "string")
             elTree = document.getElementById(elTree);
         var elTreeView = elTree.querySelector('.treeView');
-        var elBranch = elTree.querySelector('.branch');
+        var elBranch = this.getElBranch(elTree);
         if (!elBranch)
             elBranch = elTreeView.branchElement;//branch exists but hidden
         if (elBranch) {
@@ -312,7 +312,7 @@ var myTreeView = {
         if (elTreeView == null) return array;
         var tree = elTreeView.params == undefined ? undefined : elTreeView.params.tree;
         if (typeof tree == 'undefined') {
-            var elBranches = elTree.querySelector('.branch'),
+            var elBranches = this.getElBranch(elTree),
                 childNodes = elBranches == null ?
                     (elTreeView.branchElement == undefined ? null : elTreeView.branchElement.childNodes)
                     : elBranches.childNodes;
@@ -362,7 +362,7 @@ var myTreeView = {
             return res;
         var tree = elTreeView.params.tree;
         if (typeof tree == 'undefined') {
-            var elBranches = elTree.querySelector('.branch');
+            var elBranches = this.getElBranch(elTree);
             var childNodes = elBranches == null ? elTreeView.branchElement.childNodes : elBranches.childNodes;
             for (var i = childNodes.length - 1; i >= 0; i--) {
                 var elBranch = childNodes[i];
