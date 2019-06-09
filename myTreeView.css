@@ -21,4 +21,5 @@
     max-height: 1000px;
     opacity: 1;
     _display: block;
+    display: block;/*Safari 5.1.7 and LG TV Google Chrome*/
 }
